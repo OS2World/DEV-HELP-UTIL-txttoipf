@@ -1,0 +1,62 @@
+/*
+     Format a text file for IBM IPF facility
+     Program by Dennis Frost
+     
+     email:
+        dfrost@wvuvphs1.hsc.wvu.edu
+        dlfrost@miavx1.acs.muohio.edu 	
+*/
+
+txtfile = ''
+ipffile = ''
+ipffile = arg(1)
+parse var ipffile txtfile ipffile
+
+if (txtfile = '') | (ipffile = '') | (ipffile = 0) then
+        exit(0)
+
+
+do while lines(txtfile) = 1
+    tempchar = CHARIN(txtfile)
+    select
+    when tempchar = "&" then call CHAROUT ipffile, "&amp."
+    when tempchar = ":" then call CHAROUT ipffile, "&colon."
+    when tempchar = "^" then call CHAROUT ipffile, "&caret."
+    when tempchar = "'" then call CHAROUT ipffile, "&apos."
+    when tempchar = "*" then call CHAROUT ipffile, "&asterisk."
+    when tempchar = "\" then call CHAROUT ipffile, "&bslash."
+    when tempchar = '"' then call CHAROUT ipffile, '&cdq.'
+    when tempchar = "," then call CHAROUT ipffile, "&comma."
+    when tempchar = "-" then call CHAROUT ipffile, "&dash."
+    when tempchar = "$" then call CHAROUT ipffile, "&dollar."
+    when tempchar = "." then call CHAROUT ipffile, "&per."
+    when tempchar = "=" then call CHAROUT ipffile, "&eq."
+    when tempchar = "!" then call CHAROUT ipffile, "&xclm."
+    when tempchar = ">" then call CHAROUT ipffile, "&gtsym."
+    when tempchar = "<" then call CHAROUT ipffile, "&ltsym."
+    when tempchar = "{" then call CHAROUT ipffile, "&lbrace."
+    when tempchar = "[" then call CHAROUT ipffile, "&lbracket."
+    when tempchar = "(" then call CHAROUT ipffile, "&lpar."
+    when tempchar = "#" then call CHAROUT ipffile, "&numsign."
+    when tempchar = "`" then call CHAROUT ipffile, "&osq."
+    when tempchar = "%" then call CHAROUT ipffile, "&percent."
+    when tempchar = "+" then call CHAROUT ipffile, "&plus."
+    when tempchar = "}" then call CHAROUT ipffile, "&rbrace."
+    when tempchar = "]" then call CHAROUT ipffile, "&rbracket."
+    when tempchar = ")" then call CHAROUT ipffile, "&rpar."
+    when tempchar = ";" then call CHAROUT ipffile, "&semi."
+    when tempchar = "/" then call CHAROUT ipffile, "&slash."
+    when tempchar = "@" then call CHAROUT ipffile, "&atsign."
+    when tempchar = "|" then call CHAROUT ipffile, "&splitvbar."
+    when tempchar = "~" then call CHAROUT ipffile, "&tilde."
+    when tempchar = "_" then call CHAROUT ipffile, "&us."
+    otherwise
+        call CHAROUT ipffile, tempchar
+    end
+end
+
+status = LINEOUT( txtfile )
+status = LINEOUT( ipffile )
+
+exit(1)
+
